@@ -1,30 +1,39 @@
 import matplotlib.pyplot as plt
-#1 : nommer les planets avec une list []
+import math
+
+#nommer les planets avec une list []
 planetes = [
     
     "Mercure",
-    "Venus",
+    "Vénus",
     "Terre",
     "Mars",
-    "Jupitère",
+    "Jupiter",
     "Saturne",
     "Uranus",
     "Neptune",
 ]
 
-#2 : faire une liste de cordonnée x et y avec des listes
-x = [1, 2, 3, 4, 5, 6, 7, 8]
-y = [0, 0, 0, 0, 0, 0, 0, 0]
+r = 5
+angles = [2 * math.pi * i / 8 for i in range(8)] #multiplier de 0 à 7 2pi/8 
 
-# 3 : utiliser scatter de plt afin de dessiner un rond en le nommant le soleil avec label
+
+
+#calculer x et y avec le rayon et cos/sin des angles 
+x = [r * math.cos(angle) for angle in angles] 
+y = [r * math.sin(angle) for angle in angles] 
+#la boucle for nécessaire afin de calculer une position pour chaque angle
+
+
+# utiliser scatter de plt afin de dessiner un rond en le nommant le soleil avec label
 plt.scatter(0,0, s=500, label="Soleil") # s pour size
 plt.text(0, 0, "Soleil")
 
-#4 : utiliser scatter afin d'avoir les coordonnée de x et y des planète avec une taille de 1000
+# utiliser scatter afin d'avoir les coordonnée de x et y des planète avec une taille de 1000
 plt.scatter(x,y, s=1000)
 
 for i in range(len(planetes)) : #len c'est pour compter le nombre d'une liste
-    plt.text(x[i], y[i], planetes[i]) #il écrit et nomme les planète
+    plt.text(x[i], y[i], planetes[i]) #il nomme et place les planète
 
 plt.xlim(-2, 10) #limite de l'axe horizontal x
 plt.ylim(-3, 3) #limite de l'axe vertical y
