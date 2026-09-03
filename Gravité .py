@@ -14,14 +14,20 @@ planetes = [
     "Neptune",
 ]
 
-r = 5
+
+#ajout de rayon et de l'angle
+r = [i for i in range(2, 11) ]
 angles = [2 * math.pi * i / 8 for i in range(8)] #multiplier de 0 à 7 2pi/8 
 
 
+#déclarer x et y dans une liste chaune vides 
+x = []
+y = []
 
-#calculer x et y avec le rayon et cos/sin des angles 
-x = [r * math.cos(angle) for angle in angles] 
-y = [r * math.sin(angle) for angle in angles] 
+#calculer x et y avec le rayon et cos/sin des angles
+for rayon, angle in zip(r, angles) : # zip associe les éléments de deux listes deux par deux
+    x.append(rayon * math.cos(angle)) #append : ajoute la valeur à la fin de la liste.
+    y.append(rayon * math.sin(angle)) 
 #la boucle for nécessaire afin de calculer une position pour chaque angle
 
 
@@ -30,11 +36,12 @@ plt.scatter(0,0, s=500, label="Soleil") # s pour size
 plt.text(0, 0, "Soleil")
 
 # utiliser scatter afin d'avoir les coordonnée de x et y des planète avec une taille de 1000
-plt.scatter(x,y, s=1000)
+
 
 for i in range(len(planetes)) : #len c'est pour compter le nombre d'une liste
     plt.text(x[i], y[i], planetes[i]) #il nomme et place les planète
-
+    
+plt.scatter(x,y, s=1000)
 plt.xlim(-2, 10) #limite de l'axe horizontal x
 plt.ylim(-3, 3) #limite de l'axe vertical y
 
