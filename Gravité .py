@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-
 #1 : nommer les planets avec une list []
 planetes = [
     
@@ -30,6 +29,5 @@ for i in range(len(planetes)) : #len c'est pour compter le nombre d'une liste
 plt.xlim(-2, 10) #limite de l'axe horizontal x
 plt.ylim(-3, 3) #limite de l'axe vertical y
 
-plt.grid #ajt la grille au graphique
-
-plt.show()
+plt.grid() #ajt la grille au graphique
+plt.show() #Pour montrer
