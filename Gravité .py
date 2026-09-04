@@ -42,16 +42,6 @@ vy = [vitesses[i] * math.cos(angles[i]) for i in range(8)]
 
 for etape in range(100):
 #déclarer x et y dans une liste chaune vides 
- 
-    #calculer x et y avec le rayon et cos/sin des angles
-    
-
-    '''
-    for i in range(len(planetes)) :                     #len c'est pour compter le nombre d'une liste    
-        angles[i] = angles[i] + omega[i] * dt  # faire avancer l'angle de chaque planète
-    '''    
-
-
 
 # utiliser scatter de plt afin de dessiner un rond en le nommant le soleil avec label
     plt.scatter(0,0, s=500, label="Soleil") #s pour size
@@ -60,13 +50,19 @@ for etape in range(100):
 
 
     for i in range(len(planetes)) : #len c'est pour compter le nombre d'une liste
-     plt.text(x[i], y[i], planetes[i]) #il nomme et place les planète
      
      r2 = math.sqrt(x[i]**2 + y[i]**2)
 
      ax = -G * M * x[i] / r2**3
-     ay = -G * M * y[i] / r2**3
+     ay = -G * M * y[i] / r2**3     #gravité en x et y dirigé par le soleil
+     
+     vx[i] = vx[i] + ax * dt
+     vy[i] = vy[i] + ay * dt
+
+     x[i] = x[i] + vx[i] * dt
+     y[i] = y[i] + vy[i] * dt
     
+     plt.text(x[i], y[i], planetes[i]) #il nomme et place les planète
 
     
     plt.scatter(x,y, s=1000)
