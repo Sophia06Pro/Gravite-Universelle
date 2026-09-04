@@ -26,26 +26,32 @@ dt = 0.01           # temps simulé par image, en années
 #définir les rayons, les angles initiaux et les vitesses orbitales
 r = [0.39, 0.72, 1.00, 1.52, 5.20, 9.58, 19.2, 30.1]        #en UA dans l'ordre des planètes
 vitesses = [math.sqrt(G*M / rayon) for rayon in r] 
-angles = [2 * math.pi * i / 8 for i in range(8)]            #multiplier de 0 à 7 2pi/8 
+angles = [2 * math.pi * i / 8 for i in range(8)]   
 
-omega = [vitesses[i] / r[i] for i in range (8)]          # vitesse angulaire de chaque planète
+#omega = [vitesses[i] / r[i] for i in range (8)]   # vitesse angulaire de chaque planète
+# positions initiales
+x = [rayon * math.cos(angle) for rayon, angle in zip(r, angles)]
+y = [rayon * math.sin(angle) for rayon, angle in zip(r, angles)]
+
+# vitesses initiales tangentielles
+vx = [-vitesses[i] * math.sin(angles[i]) for i in range(8)]
+vy = [vitesses[i] * math.cos(angles[i]) for i in range(8)]
+
+
  
 
 for etape in range(100):
 #déclarer x et y dans une liste chaune vides 
-    x = []
-    y = []
-
+ 
+    #calculer x et y avec le rayon et cos/sin des angles
     
+
+    '''
     for i in range(len(planetes)) :                     #len c'est pour compter le nombre d'une liste    
-        angles[i] = angles[i] + omega[i] * dt           # faire avancer l'angle de chaque planète
-    
+        angles[i] = angles[i] + omega[i] * dt  # faire avancer l'angle de chaque planète
+    '''    
 
-#calculer x et y avec le rayon et cos/sin des angles
-    for rayon, angle in zip(r, angles) :             # zip associe les éléments de deux listes deux par deux
-         x.append(rayon * math.cos(angle))           #append : ajoute la valeur à la fin de la liste.
-         y.append(rayon * math.sin(angle)) 
-#la boucle for nécessaire afin de calculer une position pour chaque angle
+
 
 # utiliser scatter de plt afin de dessiner un rond en le nommant le soleil avec label
     plt.scatter(0,0, s=500, label="Soleil") #s pour size
@@ -55,6 +61,11 @@ for etape in range(100):
 
     for i in range(len(planetes)) : #len c'est pour compter le nombre d'une liste
      plt.text(x[i], y[i], planetes[i]) #il nomme et place les planète
+     
+     r2 = math.sqrt(x[i]**2 + y[i]**2)
+
+     ax = -G * M * x[i] / r2**3
+     ay = -G * M * y[i] / r2**3
     
 
     
