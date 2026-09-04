@@ -17,13 +17,19 @@ planetes = [
 ]
 
 
-#ajout de rayon, de l'angle et de la vitesse
-r = [i for i in range(2, 10) ]
-angles = [2 * math.pi * i / 8 for i in range(8)] #multiplier de 0 à 7 2pi/8 
+#ajout de la gravité et la masse
+G = 4 * math.pi**2  # constante gravitationnelle en UA³ / an² / masse solaire
+M = 1               # masse du Soleil en masse solaire
+dt = 0.01           # temps simulé par image, en années
 
-omega = [0.5 for i in range (8)]  # vitesse angulaire de chaque planète
 
-vitesses = [omega[i] * r[i] for i in range(8)] #calculer 
+#définir les rayons, les angles initiaux et les vitesses orbitales
+r = [0.39, 0.72, 1.00, 1.52, 5.20, 9.58, 19.2, 30.1]        #en UA dans l'ordre des planètes
+vitesses = [math.sqrt(G*M / rayon) for rayon in r] 
+angles = [2 * math.pi * i / 8 for i in range(8)]            #multiplier de 0 à 7 2pi/8 
+
+omega = [vitesses[i] / r[i] for i in range (8)]          # vitesse angulaire de chaque planète
+ 
 
 for etape in range(100):
 #déclarer x et y dans une liste chaune vides 
@@ -31,13 +37,13 @@ for etape in range(100):
     y = []
 
     
-    for i in range(len(planetes)) : #len c'est pour compter le nombre d'une liste    
-        angles[i] = angles[i] + omega[i] # faire avancer l'angle de chaque planète
+    for i in range(len(planetes)) :                     #len c'est pour compter le nombre d'une liste    
+        angles[i] = angles[i] + omega[i] * dt           # faire avancer l'angle de chaque planète
     
 
 #calculer x et y avec le rayon et cos/sin des angles
-    for rayon, angle in zip(r, angles) : # zip associe les éléments de deux listes deux par deux
-         x.append(rayon * math.cos(angle)) #append : ajoute la valeur à la fin de la liste.
+    for rayon, angle in zip(r, angles) :             # zip associe les éléments de deux listes deux par deux
+         x.append(rayon * math.cos(angle))           #append : ajoute la valeur à la fin de la liste.
          y.append(rayon * math.sin(angle)) 
 #la boucle for nécessaire afin de calculer une position pour chaque angle
 
@@ -53,8 +59,8 @@ for etape in range(100):
 
     
     plt.scatter(x,y, s=1000)
-    plt.xlim(-10, 10) #limite de l'axe horizontal x
-    plt.ylim(-10, 10) #limite de l'axe vertical y
+    plt.xlim(-32, 32) #limite de l'axe horizontal x
+    plt.ylim(-32, 32) #limite de l'axe vertical y
     plt.grid() #ajt la grille au graphique
     plt.pause(0.1)
     plt.clf() #efface les anciennes prositions avant de dessiner une nouvelle position
