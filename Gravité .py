@@ -21,7 +21,9 @@ planetes = [
 r = [i for i in range(2, 10) ]
 angles = [2 * math.pi * i / 8 for i in range(8)] #multiplier de 0 à 7 2pi/8 
 
-vitesses = [0.5 for i in range (8)]
+omega = [0.5 for i in range (8)]  # vitesse angulaire de chaque planète
+
+vitesses = [omega[i] * r[i] for i in range(8)] #calculer 
 
 for etape in range(100):
 #déclarer x et y dans une liste chaune vides 
@@ -30,7 +32,7 @@ for etape in range(100):
 
     
     for i in range(len(planetes)) : #len c'est pour compter le nombre d'une liste    
-        angles[i] = angles[i] + vitesses[i]
+        angles[i] = angles[i] + omega[i] # faire avancer l'angle de chaque planète
     
 
 #calculer x et y avec le rayon et cos/sin des angles
