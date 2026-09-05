@@ -54,13 +54,20 @@ ax = [0 for i in range(len(planetes))]
 ay = [0 for i in range(len(planetes))]
 
 
+#position initiale du Soleil
+x_soleil = 0
+y_soleil = 0
+
+#vitesse initiale du Soleil
+vx_soleil = 0
+vy_soleil = 0
+
      
 for etape in range(10000):
     
 
 # utiliser scatter de plt afin de dessiner un rond en le nommant le soleil avec label
-    plt.scatter(0,0, s=500, label="Soleil") #s pour size
-    plt.text(0, 0, "Soleil")
+   
 # utiliser scatter afin d'avoir les coordonnée de x et y des planète avec une taille de 1000
 
 
@@ -70,12 +77,15 @@ for etape in range(10000):
      # i : planète dont on calcul l’accélération
      # j : une autre planète qui l’attire
 
-     #accélération de la planète due au soleil
-     
-     r2 = math.sqrt(x[i]**2 + y[i]**2)
+     #accélération de la planète due au soleil :
 
-     ax_total = -G * M * x[i] / r2**3
-     ay_total = -G * M * y[i] / r2**3     #accélération gravitationnelle en x et y, dirigée vers le Soleil
+     #distance du soleil
+     dx_soleil = x_soleil - x[i] 
+     dy_soleil = y_soleil - y[i]
+
+     rSoleil = math.sqrt(dx_soleil**2 + dy_soleil**2)
+     ax_total = G * M * dx_soleil / rSoleil**3
+     ay_total = G * M * dy_soleil / rSoleil**3     #accélération gravitationnelle en x et y, dirigée vers le Soleil
      
      
      #accélération de la planètes due aux autres planètes
@@ -105,9 +115,11 @@ for etape in range(10000):
          y[i] = y[i] + vy[i] * dt
          
     for i in range(len(planetes)) :      
-         plt.text(x[i], y[i], planetes[i]) #il nomme et place les planète     
+         plt.text(x[i], y[i], planetes[i]) #il nomme et place les planète  
+ 
     
-     
+    plt.scatter(x_soleil, y_soleil, s=500, label="Soleil") #s pour size
+    plt.text(x_soleil, y_soleil, "Soleil")   
     plt.scatter(x,y, s=1000)
     plt.xlim(-32, 32) #limite de l'axe horizontal x
     plt.ylim(-32, 32) #limite de l'axe vertical y
