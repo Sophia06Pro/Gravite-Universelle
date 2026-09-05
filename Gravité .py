@@ -64,9 +64,7 @@ vy_soleil = 0
 
      
 for etape in range(10000):
-    
 
-# utiliser scatter de plt afin de dessiner un rond en le nommant le soleil avec label
    
 # utiliser scatter afin d'avoir les coordonnée de x et y des planète avec une taille de 1000
 
@@ -103,17 +101,42 @@ for etape in range(10000):
              
      ax[i] = ax_total
      ay[i] = ay_total
+     
+    ax_soleil = 0
+    ay_soleil = 0 
+#accélération du Soleil due aux planètes
+    for i in range(len(planetes)):
+        
+        dx = x[i] - x_soleil
+        dy = y[i] - y_soleil
+
+        distance = math.sqrt(dx**2 + dy**2)
+
+        ax_soleil += G * masses[i] * dx / distance**3
+        ay_soleil += G * masses[i] * dy / distance**3
  
- # modifier toutes les vitesses    
+ 
+ # modifier toutes les vitesses des planètes    
     for i in range(len(planetes)) :
          vx[i] = vx[i] + ax[i] * dt 
          vy[i] = vy[i] + ay[i] * dt
+    
+    # modifier toutes les vitesses du soleil 
+    vx_soleil = vx_soleil + ax_soleil * dt
+    vy_soleil = vy_soleil + ay_soleil * dt
      
- # modifier toutes les positions
+ # modifier toutes les positions des planètes
     for i in range(len(planetes)) :
          x[i] = x[i] + vx[i] * dt
          y[i] = y[i] + vy[i] * dt
-         
+        
+ #modifier les postions du soleil   
+    x_soleil = x_soleil + vx_soleil * dt
+    y_soleil = y_soleil + vy_soleil * dt   
+    print(x_soleil, y_soleil)
+    
+    
+      
     for i in range(len(planetes)) :      
          plt.text(x[i], y[i], planetes[i]) #il nomme et place les planète  
  
@@ -121,8 +144,8 @@ for etape in range(10000):
     plt.scatter(x_soleil, y_soleil, s=500, label="Soleil") #s pour size
     plt.text(x_soleil, y_soleil, "Soleil")   
     plt.scatter(x,y, s=1000)
-    plt.xlim(-32, 32) #limite de l'axe horizontal x
-    plt.ylim(-32, 32) #limite de l'axe vertical y
+    plt.xlim(-32, 32)
+    plt.ylim(-32, 32)
     plt.grid() #ajt la grille au graphique
     plt.pause(0.001)
     plt.clf() #efface les anciennes prositions avant de dessiner une nouvelle position
