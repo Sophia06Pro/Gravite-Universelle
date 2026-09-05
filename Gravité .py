@@ -49,9 +49,14 @@ vx = [-vitesses[i] * math.sin(angles[i]) for i in range(8)]
 vy = [vitesses[i] * math.cos(angles[i]) for i in range(8)]
 
  
+# stocker l'accélération de chaque planète
+ax = [0 for i in range(len(planetes))]
+ay = [0 for i in range(len(planetes))]
 
+
+     
 for etape in range(10000):
-#déclarer x et y dans une liste chaune vides 
+    
 
 # utiliser scatter de plt afin de dessiner un rond en le nommant le soleil avec label
     plt.scatter(0,0, s=500, label="Soleil") #s pour size
@@ -59,18 +64,18 @@ for etape in range(10000):
 # utiliser scatter afin d'avoir les coordonnée de x et y des planète avec une taille de 1000
 
 
+#calculer les accélérations
     for i in range(len(planetes)) : #len c'est pour compter le nombre d'une liste
         
      # i : planète dont on calcul l’accélération
      # j : une autre planète qui l’attire
 
-        
      #accélération de la planète due au soleil
      
      r2 = math.sqrt(x[i]**2 + y[i]**2)
 
      ax_total = -G * M * x[i] / r2**3
-     ay_total = -G * M * y[i] / r2**3     #gravité en x et y dirigé par le soleil
+     ay_total = -G * M * y[i] / r2**3     #accélération gravitationnelle en x et y, dirigée vers le Soleil
      
      
      #accélération de la planètes due aux autres planètes
@@ -85,25 +90,32 @@ for etape in range(10000):
              
              ax_total += G * masses[j] * dx / distance**3
              ay_total += G * masses[j] * dy / distance**3
+             
+     ax[i] = ax_total
+     ay[i] = ay_total
+ 
+ # modifier toutes les vitesses    
+    for i in range(len(planetes)) :
+         vx[i] = vx[i] + ax[i] * dt 
+         vy[i] = vy[i] + ay[i] * dt
+     
+ # modifier toutes les positions
+    for i in range(len(planetes)) :
+         x[i] = x[i] + vx[i] * dt
+         y[i] = y[i] + vy[i] * dt
          
-     vx[i] = vx[i] + ax_total * dt 
-     vy[i] = vy[i] + ay_total * dt
-
-     x[i] = x[i] + vx[i] * dt
-     y[i] = y[i] + vy[i] * dt
-     
-     
-     
+    for i in range(len(planetes)) :      
+         plt.text(x[i], y[i], planetes[i]) #il nomme et place les planète     
     
-     plt.text(x[i], y[i], planetes[i]) #il nomme et place les planète
-
-    
+     
     plt.scatter(x,y, s=1000)
     plt.xlim(-32, 32) #limite de l'axe horizontal x
     plt.ylim(-32, 32) #limite de l'axe vertical y
     plt.grid() #ajt la grille au graphique
     plt.pause(0.001)
     plt.clf() #efface les anciennes prositions avant de dessiner une nouvelle position
+    
+
 
 
 plt.show() #Pour montrer
