@@ -18,7 +18,7 @@ planetes = [
 
 
 #ajout de la gravité et la masse
-G = 4 * math.pi**2  # constante gravitationnelle en UA³ / an² / masse solaire
+G = 4 * math.pi**2  # constante gravitationnelle en UA  
 M = 1               # masse du Soleil en masse solaire
 dt = 0.01           # temps simulé par image, en années
 
@@ -39,7 +39,6 @@ r = [0.39, 0.72, 1.00, 1.52, 5.20, 9.58, 19.2, 30.1]        #en UA dans l'ordre 
 vitesses = [math.sqrt(G*M / rayon) for rayon in r] 
 angles = [2 * math.pi * i / 8 for i in range(8)]   
 
-#omega = [vitesses[i] / r[i] for i in range (8)]   # vitesse angulaire de chaque planète
 # positions initiales
 x = [rayon * math.cos(angle) for rayon, angle in zip(r, angles)]
 y = [rayon * math.sin(angle) for rayon, angle in zip(r, angles)]
