@@ -61,7 +61,22 @@ y_soleil = 0
 vx_soleil = 0
 vy_soleil = 0
 
-     
+#(x,y) et distance de la Terre.
+x_terre = x[2]
+y_terre = y[2]
+
+d_terre = 384400 / (1.5 * 10**8)
+
+#ajout de la lune
+
+x_lune = x_terre + d_terre
+y_lune = y_terre
+
+#vitesse de la lune et la Terre : 
+
+v_LuneTerre = math.sqrt(G * masses[2] / (d_terre) )
+
+
 for etape in range(10000):
 
    
