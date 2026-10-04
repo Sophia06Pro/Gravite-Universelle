@@ -128,6 +128,7 @@ for etape in range(10000):
      
     ax_soleil = 0
     ay_soleil = 0 
+    
 #accélération du Soleil due aux planètes
     for i in range(len(planetes)):
         
@@ -138,8 +139,57 @@ for etape in range(10000):
 
         ax_soleil += G * masses[i] * dx / distance**3
         ay_soleil += G * masses[i] * dy / distance**3
- 
- 
+        
+        
+    
+    
+    dx_lune = x_lune - x[2]
+    dy_lune = y_lune - y[2]   
+    
+    dx_terre = x[2] - x_lune
+    dy_terre = y[2] - y_lune 
+    
+    distance_terre_lune = math.sqrt(dx_lune**2 + dy_lune**2)
+           
+    
+    ax_terre_lune = G * masses[8] * dx_lune / distance_terre_lune**3
+    ay_terre_lune = G * masses[8] * dy_lune / distance_terre_lune**3
+    
+    ax[2] = ax[2] + ax_terre_lune
+    ay[2] = ay[2] + ay_terre_lune    
+    
+    
+        
+    dx_soleil_lune = x_soleil - x_lune
+    dy_soleil_lune = y_soleil - y_lune
+
+    distance_soleil_lune = math.sqrt(dx_soleil_lune**2 + dy_soleil_lune**2)
+    
+    ax_soleil_lune = G * M * dx_soleil_lune / distance_soleil_lune**3
+    ay_soleil_lune = G * M * dy_soleil_lune / distance_soleil_lune**3
+    
+    ax_lune = G * masses[2] * dx_terre / distance_terre_lune**3
+    ay_lune = G * masses[2] * dy_terre / distance_terre_lune**3
+    ax_lune = ax_lune + ax_soleil_lune
+    ay_lune = ay_lune + ay_soleil_lune
+    
+    
+    
+    for j in range(len(planetes)):
+        if j != 2:
+
+            dx = x[j] - x_lune
+
+            dy = y[j] - y_lune
+
+            distance = math.sqrt(dx**2 + dy**2)
+
+            ax_lune += G * masses[j] * dx / distance**3
+
+            ay_lune += G * masses[j] * dy / distance**3
+            
+    vx_lune = vx_lune + ax_lune * dt
+    vy_lune = vy_lune + ay_lune * dt    
  # modifier toutes les vitesses des planètes    
     for i in range(len(planetes)) :
          vx[i] = vx[i] + ax[i] * dt 
@@ -150,37 +200,19 @@ for etape in range(10000):
     for i in range(len(planetes)) :
          x[i] = x[i] + vx[i] * dt
          y[i] = y[i] + vy[i] * dt
-    
-    
+         
+         
+         
     x_lune = x_lune + vx_lune * dt
     y_lune = y_lune + vy_lune * dt
     
-    dx_terre = x[2] - x_lune
-    dy_terre = y[2] - y_lune 
-    
-    distance_terre_lune = math.sqrt(dx_terre**2 + dy_terre**2)
-    ax_lune = G * masses[2] * dx_terre / distance_terre_lune**3
-
-    ay_lune = G * masses[2] * dy_terre / distance_terre_lune**3
-    
-    vx_lune = vx_lune + ax_lune * dt
-
-    vy_lune = vy_lune + ay_lune * dt
-    
-    
-    #Pour la masse de la Lune-Terre
-    dx_lune = x_lune - x[2]
-    dy_lune = y_lune - y[2]
-
-    ax_terre_lune = G * masses[8] * dx_lune / distance_terre_lune**3
-    ay_terre_lune = G * masses[8] * dy_lune / distance_terre_lune**3
-    
-    ax[2] = ax[2] + ax_terre_lune
-    ay[2] = ay[2] + ay_terre_lune
+   
     
     # modifier toutes les vitesses du soleil 
     vx_soleil = vx_soleil + ax_soleil * dt
     vy_soleil = vy_soleil + ay_soleil * dt
+    
+    
         
  #modifier les postions du soleil   
     x_soleil = x_soleil + vx_soleil * dt
