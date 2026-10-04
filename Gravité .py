@@ -77,13 +77,9 @@ y_lune = y_terre
 #vitesse orbitale de la lune autour de la Terre : 
 
 v_LuneTerre = math.sqrt(G * masses[2] / (d_terre) )
-vx_terre = vx[2]
-vy_terre = vy[2]
+
 
 #vitesse de la lune autour de la Terre
-vx_LuneTerre = 0
-vy_LuneTerre = v_LuneTerre
-
 vx_lune = vx[2]
 vy_lune = vy[2] + v_LuneTerre
 
@@ -217,7 +213,6 @@ for etape in range(10000):
  #modifier les postions du soleil   
     x_soleil = x_soleil + vx_soleil * dt
     y_soleil = y_soleil + vy_soleil * dt   
-    print(x_soleil, y_soleil)
     
     
       
