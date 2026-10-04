@@ -119,11 +119,23 @@ for etape in range(10000):
              ax_total += G * masses[j] * dx / distance**3
              ay_total += G * masses[j] * dy / distance**3
              
+     if i != 2:
+
+        dx_lune_planete = x_lune - x[i]
+        dy_lune_planete = y_lune - y[i]
+
+        distance_lune_planete = math.sqrt(dx_lune_planete**2 + dy_lune_planete**2)
+
+        ax_total += G * masses[8] * dx_lune_planete / distance_lune_planete**3
+        ay_total += G * masses[8] * dy_lune_planete / distance_lune_planete**3    
+            
      ax[i] = ax_total
      ay[i] = ay_total
      
     ax_soleil = 0
     ay_soleil = 0 
+    
+    
     
 #accélération du Soleil due aux planètes
     for i in range(len(planetes)):
@@ -135,7 +147,15 @@ for etape in range(10000):
 
         ax_soleil += G * masses[i] * dx / distance**3
         ay_soleil += G * masses[i] * dy / distance**3
-        
+
+
+    dx_lune_soleil = x_lune - x_soleil
+    dy_lune_soleil = y_lune - y_soleil
+
+    distance_lune_soleil = math.sqrt(dx_lune_soleil**2 + dy_lune_soleil**2)
+
+    ax_soleil += G * masses[8] * dx_lune_soleil / distance_lune_soleil**3
+    ay_soleil += G * masses[8] * dy_lune_soleil / distance_lune_soleil**3
         
     
     
@@ -186,6 +206,7 @@ for etape in range(10000):
             
     vx_lune = vx_lune + ax_lune * dt
     vy_lune = vy_lune + ay_lune * dt    
+    
  # modifier toutes les vitesses des planètes    
     for i in range(len(planetes)) :
          vx[i] = vx[i] + ax[i] * dt 
