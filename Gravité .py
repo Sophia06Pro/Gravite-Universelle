@@ -30,7 +30,9 @@ masses = [
     9.545e-4,   #Jupiter
     2.857e-4,   #Saturne
     4.366e-5,   #Uranus
-    5.151e-5    #Neptune
+    5.151e-5,    #Neptune
+    
+    3.69e-8     #Lune
 ]  #masses en masses solaires
 
 
@@ -72,10 +74,18 @@ d_terre = 384400 / (1.5 * 10**8)
 x_lune = x_terre + d_terre
 y_lune = y_terre
 
-#vitesse de la lune et la Terre : 
+#vitesse orbitale de la lune autour de la Terre : 
 
 v_LuneTerre = math.sqrt(G * masses[2] / (d_terre) )
+vx_terre = vx[2]
+vy_terre = vy[2]
 
+#vitesse de la lune autour de la Terre
+vx_LuneTerre = 0
+vy_LuneTerre = v_LuneTerre
+
+vx_lune = vx[2]
+vy_lune = vy[2] + v_LuneTerre
 
 for etape in range(10000):
 
@@ -135,14 +145,42 @@ for etape in range(10000):
          vx[i] = vx[i] + ax[i] * dt 
          vy[i] = vy[i] + ay[i] * dt
     
-    # modifier toutes les vitesses du soleil 
-    vx_soleil = vx_soleil + ax_soleil * dt
-    vy_soleil = vy_soleil + ay_soleil * dt
      
  # modifier toutes les positions des planètes
     for i in range(len(planetes)) :
          x[i] = x[i] + vx[i] * dt
          y[i] = y[i] + vy[i] * dt
+    
+    
+    x_lune = x_lune + vx_lune * dt
+    y_lune = y_lune + vy_lune * dt
+    
+    dx_terre = x[2] - x_lune
+    dy_terre = y[2] - y_lune 
+    
+    distance_terre_lune = math.sqrt(dx_terre**2 + dy_terre**2)
+    ax_lune = G * masses[2] * dx_terre / distance_terre_lune**3
+
+    ay_lune = G * masses[2] * dy_terre / distance_terre_lune**3
+    
+    vx_lune = vx_lune + ax_lune * dt
+
+    vy_lune = vy_lune + ay_lune * dt
+    
+    
+    #Pour la masse de la Lune-Terre
+    dx_lune = x_lune - x[2]
+    dy_lune = y_lune - y[2]
+
+    ax_terre_lune = G * masses[8] * dx_lune / distance_terre_lune**3
+    ay_terre_lune = G * masses[8] * dy_lune / distance_terre_lune**3
+    
+    ax[2] = ax[2] + ax_terre_lune
+    ay[2] = ay[2] + ay_terre_lune
+    
+    # modifier toutes les vitesses du soleil 
+    vx_soleil = vx_soleil + ax_soleil * dt
+    vy_soleil = vy_soleil + ay_soleil * dt
         
  #modifier les postions du soleil   
     x_soleil = x_soleil + vx_soleil * dt
@@ -157,6 +195,8 @@ for etape in range(10000):
     
     plt.scatter(x_soleil, y_soleil, s=500, label="Soleil") #s pour size
     plt.text(x_soleil, y_soleil, "Soleil")   
+    plt.scatter(x_lune, y_lune, s = 50)
+    plt.text(x_lune, y_lune,"Lune" )
     plt.scatter(x,y, s=1000)
     plt.xlim(-32, 32)
     plt.ylim(-32, 32)
